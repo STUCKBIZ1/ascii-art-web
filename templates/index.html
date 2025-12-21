@@ -8,17 +8,16 @@
 </head>
 <body>
   <form action="/ascii-art" method="POST">
-  <textarea name="text" style="width:400px; height:150px;"></textarea>
-  <select name="banner">
-    <option value="standard">standard</option>
-    <option value="shadow">shadow</option>
-    <option value="thinkertoy">thinkertoy</option>
-  </select>
+  <textarea name="text" style="width:400px; height:150px;"></textarea><br>
+
+    <label><input type="radio"  name="banner" value="standard" checked> standard</label><br>
+    <label><input type="radio"  name="banner"value="shadow"> shadow</label><br>
+    <label><input type="radio" name="banner" value="thinkertoy"> thinkertoy</label><br>
   <button type="submit">Generate</button>
 </form>
 
 {{if .Result}}
-  <pre>{{.Result}}</pre>
+  <pre>{{.Resdddfffult}}</pre>
 {{end}}
 </body>
 </html>

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
 	"html/template"
 	"net/http"
 	"os"
@@ -51,7 +53,6 @@ func asciiArtHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
 	font := ascii_art.Sep_Fonts(string(bannerData))
 	result := ascii_art.Chars_To_Art(font, text)
 
@@ -64,13 +65,17 @@ func asciiArtHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Template not found", http.StatusNotFound)
 		return
 	}
-
-	tmpl.Execute(w, data)
+	var buf bytes.Buffer
+	if err := tmpl.Execute(&buf, data); err != nil {
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+	buf.WriteTo(w)
 }
 
 func main() {
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/ascii-art", asciiArtHandler)
-
+	fmt.Print("http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
 }

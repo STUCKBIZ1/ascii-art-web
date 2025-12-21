@@ -1,7 +1,6 @@
 package ascii_art
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -17,15 +16,14 @@ func IsLine(s []string) bool {
 func Chars_To_Art(fonts [][]string, input string) string {
 	var CInput [][]string
 	var result string
-	input = strings.Replace(input, "\r", "", 1)
-	sliceInput := strings.Split(input, "\n")
+	sliceInput := strings.Split(input, "\r\n")
 	if IsLine(sliceInput) {
 		sliceInput = sliceInput[1:]
 	}
 
 	for _, inputline := range sliceInput {
 		if inputline == "" {
-			fmt.Println()
+			result += "\n"
 			continue
 		}
 		for _, char := range inputline {
@@ -38,6 +36,5 @@ func Chars_To_Art(fonts [][]string, input string) string {
 		result += Print_Fonts(CInput)
 		CInput = [][]string{}
 	}
-	fmt.Println()
 	return result
 }

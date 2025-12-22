@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -9,11 +8,6 @@ import (
 
 	ascii_art "ascii-art-web/ascii-art/src"
 )
-
-type PageData struct {
-	Result string
-	Error  string
-}
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
@@ -26,8 +20,8 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Template not found", http.StatusNotFound)
 		return
 	}
-	data := PageData{
-		Result: "",
+	data := map[string]string{
+		"Result": "",
 	}
 
 	tmpl.Execute(w, data)
@@ -56,21 +50,19 @@ func asciiArtHandler(w http.ResponseWriter, r *http.Request) {
 	font := ascii_art.Sep_Fonts(string(bannerData))
 	result := ascii_art.Chars_To_Art(font, text)
 
-	data := PageData{
-		Result: result,
-	}
-
 	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		http.Error(w, "Template not found", http.StatusNotFound)
 		return
 	}
-	var buf bytes.Buffer
-	if err := tmpl.Execute(&buf, data); err != nil {
+	data := map[string]string{
+		"Result": result,
+	}
+	err = tmpl.Execute(w, data)
+	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
-	buf.WriteTo(w)
 }
 
 func main() {

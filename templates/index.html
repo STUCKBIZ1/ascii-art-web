@@ -1,23 +1,40 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <!-- Page title shown in the browser tab -->
+  <title>ascii-art</title>
 </head>
 <body>
+
+  <!-- Form that sends data to /ascii-art using POST method -->
   <form action="/ascii-art" method="POST">
-  <textarea name="text" style="width:400px; height:150px;"></textarea><br>
 
-    <label><input type="radio"  name="banner" value="standard" checked> standard</label><br>
-    <label><input type="radio"  name="banner"value="shadow"> shadow</label><br>
-    <label><input type="radio" name="banner" value="thinkertoy"> thinkertoy</label><br>
-  <button type="submit">Generate</button>
-</form>
+    <!-- Textarea where the user enters the text to convert to ASCII art -->
+    <textarea  required maxlength="2000" name="text" style="width:400px; height:150px;"></textarea><br>
 
-{{if .Result}}
-  <pre>{{.Result}}</pre>
-{{end}}
+    <!-- Radio button to select the "standard" banner (default selected) -->
+    <label>
+      <input type="radio" name="banner" value="standard" checked> standard
+    </label><br>
+
+    <!-- Radio button to select the "shadow" banner -->
+    <label>
+      <input type="radio" name="banner" value="shadow"> shadow
+    </label><br>
+
+    <!-- Radio button to select the "thinkertoy" banner -->
+    <label>
+      <input type="radio" name="banner" value="thinkertoy"> thinkertoy
+    </label><br>
+
+    <!-- Button to submit the form -->
+    <button type="submit">Generate</button>
+  </form>
+
+  <!-- If Result exists, display the generated ASCII art -->
+  {{if .Result}}
+    <pre>{{.Result}}</pre>
+  {{end}}
+  
 </body>
 </html>
